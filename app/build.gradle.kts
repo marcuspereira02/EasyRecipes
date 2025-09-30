@@ -25,7 +25,11 @@ android {
         properties.load(localProperties.inputStream())
 
         val apiKey = properties.getProperty("API_KEY")
-
+        buildConfigField(
+            type="String",
+            name="API_KEY",
+            value = apiKey
+        )
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
