@@ -1,10 +1,11 @@
 package com.devspace.myapplication
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.devspace.myapplication.MainScreen
+import androidx.navigation.navArgument
 
 @Composable
 fun EasyRecipesApp() {
@@ -14,7 +15,15 @@ fun EasyRecipesApp() {
             OnboardingScreen(navController)
         }
         composable(route = "mainScreen"){
-            MainScreen()
+            MainScreen(navController)
+        }
+        composable(route = "detailScreen" + "/{itemId}",
+            arguments = listOf(navArgument("itemId"){
+                type= NavType.StringType
+            })
+        ){backStackEntry->
+            val movieId = requireNotNull( backStackEntry.arguments?.getString("itemId"))
+            DetailScreen(movieId, navController)
         }
     }
 

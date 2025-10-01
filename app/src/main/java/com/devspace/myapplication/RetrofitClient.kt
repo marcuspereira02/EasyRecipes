@@ -6,7 +6,7 @@ import okhttp3.internal.notify
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL: String = "https://api.spoonacular.com"
+private const val BASE_URL: String = "https://api.spoonacular.com/"
 
 object RetrofitClient {
 
