@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,7 +34,7 @@ import retrofit2.Response
 
 @Composable
 fun DetailScreen(recipeId: String, navController: NavHostController) {
-    var recipe by rememberSaveable { mutableStateOf<RecipeDto?>(null) }
+    var recipe by remember { mutableStateOf<RecipeDto?>(null) }
 
     val apiService = RetrofitClient.retrofitInstance.create(ApiService::class.java)
 
@@ -100,11 +101,17 @@ private fun DetailContent(recipe: RecipeDto) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun DetailPreview() {
 
     EasyRecipesTheme {
-
+        val recipe = RecipeDto(
+            id= 1,
+            title = "title",
+            image = "2334",
+            summary = "long text,long text,long text,long text,long text,long text"
+        )
+        DetailContent(recipe)
     }
 }
