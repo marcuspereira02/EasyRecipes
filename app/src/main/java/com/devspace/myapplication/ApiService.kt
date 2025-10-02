@@ -3,6 +3,7 @@ package com.devspace.myapplication
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -11,4 +12,7 @@ interface ApiService {
 
     @GET("recipes/{id}/information?includeNutrition=false")
     fun getRecipeInformation(@Path("id") id: String): Call<RecipeDto>
+
+    @GET ("recipes/complexSearch")
+    fun searchRecipes(@Query("query") query: String): Call<SearchRecipesResponse>
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.devspace.myapplication.componentes.ERHtmlText
+import com.devspace.myapplication.componentes.ERSearchBar
 import com.devspace.myapplication.ui.theme.EasyRecipesTheme
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,9 +63,17 @@ fun MainScreen(navController: NavHostController) {
 
     }
     Surface(modifier = Modifier.fillMaxSize()) {
-        MainContent(recipes = recipes) { itemClicked ->
-            navController.navigate("detailScreen/${itemClicked.id}")
-        }
+        MainContent(
+            recipes = recipes,
+            onSearchClicked = { query ->
+                val tempCleanQuery = query.trim()
+                if (tempCleanQuery.isNotEmpty()) {
+                    navController.navigate("searchScreen/${tempCleanQuery}")
+                }
+            }, onClick = { itemClicked ->
+                navController.navigate("detailScreen/${itemClicked.id}")
+            }
+        )
     }
 
 }
@@ -72,22 +81,27 @@ fun MainScreen(navController: NavHostController) {
 @Composable
 private fun MainContent(
     recipes: List<RecipeDto>,
-    onClick: (RecipeDto) -> Unit
+    onClick: (RecipeDto) -> Unit,
+    onSearchClicked: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
 
-        Text(
-            modifier = Modifier.padding(16.dp),
-            text = "Recipes",
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold
+        var query by remember { mutableStateOf("") }
+        SearchSession(
+            label = "Find best recipes for cooking",
+            query = query,
+            onValueChange = {
+                query = it
+            },
+            onSearchClicked = onSearchClicked
         )
 
-        recipeList(
-            recipeList = recipes,
+        RecipesSession(
+            label = "Recipes",
+            recipes = recipes,
             onClick = onClick
         )
         Log.d("MainContent", "Recipes size: ${recipes.size}")
@@ -97,14 +111,57 @@ private fun MainContent(
 }
 
 @Composable
-private fun recipeList(
+private fun SearchSession(
+    label: String,
+    query: String,
+    onValueChange: (String) -> Unit,
+    onSearchClicked: (String) -> Unit
+) {
+    Text(
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold,
+        text = label
+    )
+
+    ERSearchBar(
+        query = query,
+        placeHolder = "Search recipes",
+        onValueChange = onValueChange,
+        onSearchClicked = {
+            onSearchClicked.invoke(query)
+        }
+    )
+}
+
+@Composable
+private fun RecipesSession(
+    label: String,
+    recipes: List<RecipeDto>,
+    onClick: (RecipeDto) -> Unit
+) {
+    Text(
+        modifier = Modifier.padding(16.dp),
+        text = label,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.SemiBold
+    )
+    RecipeList(
+        recipeList = recipes,
+        onClick = onClick
+    )
+
+}
+
+@Composable
+private fun RecipeList(
     recipeList: List<RecipeDto>, onClick: (RecipeDto) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         items(recipeList) {
-            recipeItem(
+            RecipeItem(
                 recipeDto = it, onClick = onClick
             )
         }
@@ -113,13 +170,13 @@ private fun recipeList(
 }
 
 @Composable
-private fun recipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
+private fun RecipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable{
+            .clickable {
                 onClick.invoke(recipeDto)
             }
     ) {
@@ -127,7 +184,7 @@ private fun recipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
             modifier = Modifier
                 .height(150.dp)
                 .fillMaxWidth()
-                .padding(start = 8.dp,end= 8.dp),
+                .padding(start = 8.dp, end = 8.dp),
             contentScale = ContentScale.Crop,
             model = recipeDto.image,
             contentDescription = "${recipeDto.title} image"
@@ -154,6 +211,9 @@ private fun MainPreview() {
     EasyRecipesTheme {
         MainContent(
             recipes = emptyList(),
+            onSearchClicked = {
+
+            },
             onClick = {
 
             }

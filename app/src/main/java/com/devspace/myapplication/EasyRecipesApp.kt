@@ -11,20 +11,31 @@ import androidx.navigation.navArgument
 fun EasyRecipesApp() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "onboardingScreen") {
-        composable(route = "onboardingScreen"){
+        composable(route = "onboardingScreen") {
             OnboardingScreen(navController)
         }
-        composable(route = "mainScreen"){
+        composable(route = "mainScreen") {
             MainScreen(navController)
         }
-        composable(route = "detailScreen" + "/{itemId}",
-            arguments = listOf(navArgument("itemId"){
-                type= NavType.StringType
+        composable(
+            route = "detailScreen" + "/{itemId}",
+            arguments = listOf(navArgument("itemId") {
+                type = NavType.StringType
             })
-        ){backStackEntry->
-            val movieId = requireNotNull( backStackEntry.arguments?.getString("itemId"))
-            DetailScreen(movieId, navController)
+        ) { backStackEntry ->
+            val recipeId = requireNotNull(backStackEntry.arguments?.getString("itemId"))
+            DetailScreen(recipeId, navController)
         }
+        composable(
+            route = "searchScreen" + "/{query}",
+            arguments = listOf(navArgument("query") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val querySearch = requireNotNull(backStackEntry.arguments?.getString("query"))
+            SearchScreen(querySearch, navController)
+        }
+
     }
 
 }
