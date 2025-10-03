@@ -41,8 +41,7 @@ fun MainScreen(navController: NavHostController) {
     if (recipes.isEmpty()) {
         apiService.getRecipesRandom().enqueue(object : Callback<RecipeResponse> {
             override fun onResponse(
-                call: Call<RecipeResponse?>,
-                response: Response<RecipeResponse?>
+                call: Call<RecipeResponse?>, response: Response<RecipeResponse?>
             ) {
                 if (response.isSuccessful) {
                     recipes = response.body()?.recipes ?: emptyList()
@@ -53,8 +52,7 @@ fun MainScreen(navController: NavHostController) {
             }
 
             override fun onFailure(
-                call: Call<RecipeResponse?>,
-                t: Throwable
+                call: Call<RecipeResponse?>, t: Throwable
             ) {
                 Log.d("MainScreen", "Network Error :: ${t.message}")
             }
@@ -63,17 +61,14 @@ fun MainScreen(navController: NavHostController) {
 
     }
     Surface(modifier = Modifier.fillMaxSize()) {
-        MainContent(
-            recipes = recipes,
-            onSearchClicked = { query ->
-                val tempCleanQuery = query.trim()
-                if (tempCleanQuery.isNotEmpty()) {
-                    navController.navigate("searchScreen/${tempCleanQuery}")
-                }
-            }, onClick = { itemClicked ->
-                navController.navigate("detailScreen/${itemClicked.id}")
+        MainContent(recipes = recipes, onSearchClicked = { query ->
+            val tempCleanQuery = query.trim()
+            if (tempCleanQuery.isNotEmpty()) {
+                navController.navigate("searchScreen/${tempCleanQuery}")
             }
-        )
+        }, onClick = { itemClicked ->
+            navController.navigate("detailScreen/${itemClicked.id}")
+        })
     }
 
 }
@@ -85,24 +80,18 @@ private fun MainContent(
     onSearchClicked: (String) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
 
         var query by remember { mutableStateOf("") }
         SearchSession(
-            label = "Find best recipes for cooking",
-            query = query,
-            onValueChange = {
+            label = "Find best recipes for cooking", query = query, onValueChange = {
                 query = it
-            },
-            onSearchClicked = onSearchClicked
+            }, onSearchClicked = onSearchClicked
         )
 
         RecipesSession(
-            label = "Recipes",
-            recipes = recipes,
-            onClick = onClick
+            label = "Recipes", recipes = recipes, onClick = onClick
         )
         Log.d("MainContent", "Recipes size: ${recipes.size}")
     }
@@ -112,13 +101,10 @@ private fun MainContent(
 
 @Composable
 private fun SearchSession(
-    label: String,
-    query: String,
-    onValueChange: (String) -> Unit,
-    onSearchClicked: (String) -> Unit
+    label: String, query: String, onValueChange: (String) -> Unit, onSearchClicked: (String) -> Unit
 ) {
     Text(
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
         text = label
@@ -130,15 +116,12 @@ private fun SearchSession(
         onValueChange = onValueChange,
         onSearchClicked = {
             onSearchClicked.invoke(query)
-        }
-    )
+        })
 }
 
 @Composable
 private fun RecipesSession(
-    label: String,
-    recipes: List<RecipeDto>,
-    onClick: (RecipeDto) -> Unit
+    label: String, recipes: List<RecipeDto>, onClick: (RecipeDto) -> Unit
 ) {
     Text(
         modifier = Modifier.padding(16.dp),
@@ -147,8 +130,7 @@ private fun RecipesSession(
         fontWeight = FontWeight.SemiBold
     )
     RecipeList(
-        recipeList = recipes,
-        onClick = onClick
+        recipeList = recipes, onClick = onClick
     )
 
 }
@@ -178,8 +160,7 @@ private fun RecipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
             .padding(8.dp)
             .clickable {
                 onClick.invoke(recipeDto)
-            }
-    ) {
+            }) {
         AsyncImage(
             modifier = Modifier
                 .height(150.dp)
@@ -197,8 +178,7 @@ private fun RecipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
             fontSize = 18.sp,
         )
         ERHtmlText(
-            text = recipeDto.summary,
-            maxLine = 3
+            text = recipeDto.summary, maxLine = 3
         )
 
     }
@@ -209,15 +189,11 @@ private fun RecipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
 private fun MainPreview() {
 
     EasyRecipesTheme {
-        MainContent(
-            recipes = emptyList(),
-            onSearchClicked = {
+        MainContent(recipes = emptyList(), onSearchClicked = {
 
-            },
-            onClick = {
+        }, onClick = {
 
-            }
-        )
+        })
     }
 
 }
