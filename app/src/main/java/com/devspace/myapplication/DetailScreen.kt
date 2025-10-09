@@ -34,7 +34,7 @@ import retrofit2.Response
 
 @Composable
 fun DetailScreen(recipeId: String, navController: NavHostController) {
-    var recipe by remember { mutableStateOf<RecipeDto?>(null) }
+    var recipe by rememberSaveable { mutableStateOf<RecipeDto?>(null) }
 
     val apiService = RetrofitClient.retrofitInstance.create(ApiService::class.java)
 
