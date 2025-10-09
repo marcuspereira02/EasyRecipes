@@ -124,7 +124,7 @@ private fun RecipesSession(
     label: String, recipes: List<RecipeDto>, onClick: (RecipeDto) -> Unit
 ) {
     Text(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
         text = label,
         fontSize = 16.sp,
         fontWeight = FontWeight.SemiBold
