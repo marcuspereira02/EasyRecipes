@@ -109,7 +109,6 @@ private fun SearchSession(
         fontWeight = FontWeight.Bold,
         text = label
     )
-
     ERSearchBar(
         query = query,
         placeHolder = "Search recipes",
@@ -148,7 +147,6 @@ private fun RecipeList(
             )
         }
     }
-
 }
 
 @Composable
@@ -180,7 +178,6 @@ private fun RecipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
         ERHtmlText(
             text = recipeDto.summary, maxLine = 3
         )
-
     }
 }
 
@@ -195,5 +192,4 @@ private fun MainPreview() {
 
         })
     }
-
 }
