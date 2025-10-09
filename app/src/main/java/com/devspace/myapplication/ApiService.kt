@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("recipes/random?number=2")
+    @GET("recipes/random?number=20")
     fun getRecipesRandom() : Call<RecipeResponse>
 
     @GET("recipes/{id}/information?includeNutrition=false")
