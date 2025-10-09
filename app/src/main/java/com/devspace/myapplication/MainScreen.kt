@@ -56,7 +56,6 @@ fun MainScreen(navController: NavHostController) {
             ) {
                 Log.d("MainScreen", "Network Error :: ${t.message}")
             }
-
         })
 
     }
