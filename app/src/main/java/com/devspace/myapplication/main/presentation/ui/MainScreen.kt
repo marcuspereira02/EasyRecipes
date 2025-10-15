@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.devspace.myapplication.ApiService
 import com.devspace.myapplication.common.model.RecipeDto
 import com.devspace.myapplication.common.model.RecipeResponse
 import com.devspace.myapplication.common.data.RetrofitClient
