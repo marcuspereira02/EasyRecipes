@@ -1,4 +1,4 @@
-package com.devspace.myapplication
+package com.devspace.myapplication.search.data
 
 data class SearchRecipesResponse(
     val results: List<SearchRecipeDto>
