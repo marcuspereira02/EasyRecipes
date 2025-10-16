@@ -44,7 +44,6 @@ fun SearchScreen(
     val recipesFound by searchViewModel.uiRecipesFound.collectAsState()
     searchViewModel.fetchRecipesFound(querySearch)
 
-
         Column(modifier = Modifier.fillMaxSize()) {
 
             Row(
@@ -64,7 +63,6 @@ fun SearchScreen(
                     text = querySearch
                 )
             }
-
             SearchContent(recipesFound, onClick = { itemClicked ->
                 navController.navigate(route = "detailScreen/${itemClicked.id}")
             })
@@ -110,7 +108,7 @@ private fun ItemRecipe(
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
             text = recipe.title,
             fontWeight = FontWeight.Bold,
-            fontSize = 14.sp
+            fontSize = 16.sp
         )
 
         Spacer(modifier = Modifier.size(8.dp))
