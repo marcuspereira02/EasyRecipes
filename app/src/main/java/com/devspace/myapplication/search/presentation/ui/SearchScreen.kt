@@ -107,7 +107,7 @@ private fun ItemRecipe(
             }) {
 
         Text(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp),
             text = recipe.title,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp
@@ -118,7 +118,7 @@ private fun ItemRecipe(
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 8.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 8.dp)
                 .height(150.dp)
                 .clip(RoundedCornerShape(8.dp)),
             contentScale = ContentScale.Crop,
