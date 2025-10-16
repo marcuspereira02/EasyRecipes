@@ -8,7 +8,11 @@ Funcionalidades
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
-<img src="https://github.com/user-attachments/assets/2ce90fc1-4708-4951-bd19-bf7fb5dcf21d" width=180/> <img src="https://github.com/user-attachments/assets/1107e1e1-1472-4b62-8500-54b7e5681bc0" width=180/> <img src="https://github.com/user-attachments/assets/14b38b0e-73fd-4a8a-b35c-0678e8d445d7" width=180/> <img src="https://github.com/user-attachments/assets/00669c62-791d-4b55-89ef-815fdb70874e" width=180/>
+<img src="https://github.com/user-attachments/assets/2ce90fc1-4708-4951-bd19-bf7fb5dcf21d" width=180/> 
+<img src="https://github.com/user-attachments/assets/98990d36-2252-4b01-afd5-c718ab3ffd24" width=180/>
+<img src="https://github.com/user-attachments/assets/39098a01-c2e7-4196-93d8-cf3cc450075a" width=180/>
+<img src="https://github.com/user-attachments/assets/fe19ff9e-7e4f-4f9d-a481-3319694dc821" width=180/>
+<img src="https://github.com/user-attachments/assets/2a7e7c86-d8a4-4add-bd93-f267995003d8" width=180/>
 
 
 
