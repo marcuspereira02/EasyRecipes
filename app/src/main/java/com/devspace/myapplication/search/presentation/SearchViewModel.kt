@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.devspace.myapplication.common.data.RetrofitClient
+import com.devspace.myapplication.common.data.remote.RetrofitClient
 import com.devspace.myapplication.search.data.SearchRecipeDto
 import com.devspace.myapplication.search.data.SearchService
 import kotlinx.coroutines.Dispatchers
