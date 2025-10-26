@@ -1,4 +1,4 @@
-package com.devspace.myapplication.main.data
+package com.devspace.myapplication.main.data.remote
 
 import com.devspace.myapplication.common.model.RecipeResponse
 import retrofit2.Response

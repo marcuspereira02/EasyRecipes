@@ -1,6 +1,5 @@
 package com.devspace.myapplication.main.presentation.ui
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,11 +16,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,15 +29,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.devspace.myapplication.common.model.RecipeDto
-import com.devspace.myapplication.common.model.RecipeResponse
-import com.devspace.myapplication.common.data.RetrofitClient
 import com.devspace.myapplication.componentes.ERHtmlText
 import com.devspace.myapplication.componentes.ERSearchBar
 import com.devspace.myapplication.main.presentation.MainViewModel
 import com.devspace.myapplication.ui.theme.EasyRecipesTheme
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 @Composable
 fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
@@ -58,9 +53,9 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
 
 @Composable
 private fun MainContent(
-    recipes: List<RecipeDto>,
+    recipes: RecipeMainUiState,
     onSearchClicked: (String) -> Unit,
-    onClick: (RecipeDto) -> Unit
+    onClick: (RecipeUiData) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -76,10 +71,7 @@ private fun MainContent(
         RecipesSession(
             label = "Recipes", recipes = recipes, onClick = onClick
         )
-        Log.d("MainContent", "Recipes size: ${recipes.size}")
     }
-
-
 }
 
 @Composable
@@ -103,44 +95,62 @@ private fun SearchSession(
 
 @Composable
 private fun RecipesSession(
-    label: String, recipes: List<RecipeDto>, onClick: (RecipeDto) -> Unit
+    label: String, recipes: RecipeMainUiState, onClick: (RecipeUiData) -> Unit
 ) {
+
     Text(
         modifier = Modifier.padding(start = 16.dp, bottom = 8.dp),
         text = label,
         fontSize = 16.sp,
         fontWeight = FontWeight.SemiBold
     )
-    RecipeList(
-        recipeList = recipes, onClick = onClick
-    )
 
+    if (recipes.isLoading) {
+        Text(
+            modifier = Modifier.padding(16.dp),
+            text = "Loading...",
+            fontSize = 16.sp
+        )
+        return
+
+    } else if (recipes.isError) {
+
+        Text(
+            color = Color.Red,
+            text = recipes.errorMessage ?: "",
+        )
+
+    } else {
+        RecipeList(
+            recipeList = recipes.list, onClick = onClick
+        )
+    }
 }
 
 @Composable
 private fun RecipeList(
-    recipeList: List<RecipeDto>, onClick: (RecipeDto) -> Unit
+    recipeList: List<RecipeUiData>, onClick: (RecipeUiData) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         items(recipeList) {
             RecipeItem(
-                recipeDto = it, onClick = onClick
+                recipeUiData = it, onClick = onClick
             )
         }
     }
 }
 
 @Composable
-private fun RecipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
+private fun RecipeItem(recipeUiData: RecipeUiData, onClick: (RecipeUiData) -> Unit) {
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {
-                onClick.invoke(recipeDto)
+                onClick.invoke(recipeUiData)
             }) {
         AsyncImage(
             modifier = Modifier
@@ -149,18 +159,18 @@ private fun RecipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
                 .padding(start = 8.dp, end = 8.dp)
                 .clip(RoundedCornerShape(8.dp)),
             contentScale = ContentScale.Crop,
-            model = recipeDto.image,
-            contentDescription = "${recipeDto.title} image"
+            model = recipeUiData.image,
+            contentDescription = "${recipeUiData.title} image"
         )
 
         Text(
             modifier = Modifier.padding(8.dp),
-            text = recipeDto.title,
+            text = recipeUiData.title,
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
         )
         ERHtmlText(
-            text = recipeDto.summary, maxLine = 3
+            text = recipeUiData.summary, maxLine = 3
         )
     }
 }
@@ -170,10 +180,5 @@ private fun RecipeItem(recipeDto: RecipeDto, onClick: (RecipeDto) -> Unit) {
 private fun MainPreview() {
 
     EasyRecipesTheme {
-        MainContent(recipes = emptyList(), onSearchClicked = {
-
-        }, onClick = {
-
-        })
     }
 }

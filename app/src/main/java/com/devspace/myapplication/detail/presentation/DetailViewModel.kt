@@ -5,16 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.devspace.myapplication.common.data.RetrofitClient
+import com.devspace.myapplication.common.data.remote.RetrofitClient
 import com.devspace.myapplication.common.model.RecipeDto
 import com.devspace.myapplication.detail.data.DetailService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailViewModel(
     private val detailService: DetailService

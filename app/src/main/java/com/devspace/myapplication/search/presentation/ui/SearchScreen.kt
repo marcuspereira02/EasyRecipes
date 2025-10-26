@@ -33,7 +33,6 @@ import coil.compose.AsyncImage
 import com.devspace.myapplication.search.data.SearchRecipeDto
 import com.devspace.myapplication.search.presentation.SearchViewModel
 
-
 @Composable
 fun SearchScreen(
     querySearch: String,
@@ -68,7 +67,6 @@ fun SearchScreen(
             })
         }
     }
-
 
 @Composable
 private fun SearchContent(
