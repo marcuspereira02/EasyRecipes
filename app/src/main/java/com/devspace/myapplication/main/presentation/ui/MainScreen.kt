@@ -21,14 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.devspace.myapplication.common.model.RecipeDto
+import com.devspace.myapplication.common.model.RecipeListUiData
+import com.devspace.myapplication.common.model.RecipeListUiState
 import com.devspace.myapplication.componentes.ERHtmlText
 import com.devspace.myapplication.componentes.ERSearchBar
 import com.devspace.myapplication.main.presentation.MainViewModel
@@ -53,9 +53,9 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
 
 @Composable
 private fun MainContent(
-    recipes: RecipeMainUiState,
+    recipes: RecipeListUiState,
     onSearchClicked: (String) -> Unit,
-    onClick: (RecipeUiData) -> Unit
+    onClick: (RecipeListUiData) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -95,7 +95,7 @@ private fun SearchSession(
 
 @Composable
 private fun RecipesSession(
-    label: String, recipes: RecipeMainUiState, onClick: (RecipeUiData) -> Unit
+    label: String, recipes: RecipeListUiState, onClick: (RecipeListUiData) -> Unit
 ) {
 
     Text(
@@ -116,6 +116,7 @@ private fun RecipesSession(
     } else if (recipes.isError) {
 
         Text(
+            modifier = Modifier.padding(start = 16 .dp),
             color = Color.Red,
             text = recipes.errorMessage ?: "",
         )
@@ -129,7 +130,7 @@ private fun RecipesSession(
 
 @Composable
 private fun RecipeList(
-    recipeList: List<RecipeUiData>, onClick: (RecipeUiData) -> Unit
+    recipeList: List<RecipeListUiData>, onClick: (RecipeListUiData) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
@@ -143,7 +144,7 @@ private fun RecipeList(
 }
 
 @Composable
-private fun RecipeItem(recipeUiData: RecipeUiData, onClick: (RecipeUiData) -> Unit) {
+private fun RecipeItem(recipeUiData: RecipeListUiData, onClick: (RecipeListUiData) -> Unit) {
 
     Column(
         modifier = Modifier
