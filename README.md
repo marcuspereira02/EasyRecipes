@@ -1,39 +1,38 @@
 # EasyRecipes APP
 EasyRecipes é um aplicativo Android que permite aos usuários explorar receitas em tempo real, obtendo informações diretamente da API [Spoonacular](https://spoonacular.com/food-api). Com uma interface amigável, os usuários podem visualizar detalhes de receitas, incluindo ingredientes e muito mais.
 
-Funcionalidades
+## Funcionalidades
 - Receitas aleatórias: Explore receitas de forma aleatória para descobrir novas maneiras de cozinhar.
 - Detalhes da receita: Obtenha informações detalhadas sobre cada receita, como título, e sumário.
 - Pesquisa por receitas: Não encontrou o que estava buscando? Não tem problema, faça uma busca para obter exatamente o que precisa.
 
+## 🧩 Arquitetura
+O projeto segue o padrão **MVVM (Model-View-ViewModel)** junto com o **Repository Pattern**, garantindo uma melhor separação de responsabilidades e facilidade de manutenção.  
+Além disso, o app utiliza uma abordagem **Offline First**, permitindo que os dados sejam armazenados localmente para acesso mesmo sem conexão.
+  
+
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
-<img src="https://github.com/user-attachments/assets/2ce90fc1-4708-4951-bd19-bf7fb5dcf21d" width=180/> 
-<img src="https://github.com/user-attachments/assets/98990d36-2252-4b01-afd5-c718ab3ffd24" width=180/>
-<img src="https://github.com/user-attachments/assets/39098a01-c2e7-4196-93d8-cf3cc450075a" width=180/>
-<img src="https://github.com/user-attachments/assets/fe19ff9e-7e4f-4f9d-a481-3319694dc821" width=180/>
-<img src="https://github.com/user-attachments/assets/2a7e7c86-d8a4-4add-bd93-f267995003d8" width=180/>
+<img src="https://github.com/user-attachments/assets/689adb1c-e3b1-4b3f-876b-370810793b4e" width=180/> 
+<img src="https://github.com/user-attachments/assets/a5031e70-01b0-42d3-9947-245be4ee4af2" width=180/>
+<img src="https://github.com/user-attachments/assets/cfd3d23f-5e2d-421d-9e5f-c6fc696c592a" width=180/>
+<img src="https://github.com/user-attachments/assets/3b8e6bf6-bf44-4076-ad88-f48daa782423" width=180/>
+<img src="https://github.com/user-attachments/assets/126b0dc9-1e16-4665-8a4e-52ce79f26c77" width=180/>
 
 
 
 
-## Tecnologias
-- 100% Kotlin
-- Compose
-  - Column
-  - Row
-  - Modifier
-  - Spacer
-  - LazyColumn
-  - OutlineTextField
-  - ComposePreview
-  - NavHostController
-  - AsyncImage
-- API
-  - Retrofit
-  - Okhttp3
-  - Query
-  - Path
+
+## 🛠️ Tecnologias
+- **Kotlin 100%**
+- **Jetpack Compose**
+  - Column, Row, Modifier, Spacer, LazyColumn, OutlineTextField, ComposePreview, NavHostController, AsyncImage
+- **API**
+  - Retrofit, OkHttp3, Query, Path
+- **Arquitetura**
+  - MVVM
+  - Repository Pattern
+  - Offline First (Cache local com Room)
 
 ## Documentação API
 [Postman](https://www.postman.com/spoonacular-api/)
