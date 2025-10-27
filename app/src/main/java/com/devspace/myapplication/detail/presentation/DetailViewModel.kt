@@ -1,44 +1,72 @@
 package com.devspace.myapplication.detail.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.devspace.myapplication.common.data.remote.RetrofitClient
-import com.devspace.myapplication.common.model.RecipeDto
+import com.devspace.myapplication.common.data.remote.RecipeDto
+import com.devspace.myapplication.detail.presentation.ui.RecipeDetailUiData
+import com.devspace.myapplication.detail.presentation.ui.RecipeDetailUiState
 import com.devspace.myapplication.detail.data.DetailService
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class DetailViewModel(
     private val detailService: DetailService
 ) : ViewModel() {
 
-    private val _uiRecipe = MutableStateFlow<RecipeDto?>(null)
-    val uiRecipe: StateFlow<RecipeDto?> = _uiRecipe
+    private val _uiRecipe = MutableStateFlow(RecipeDetailUiState())
+    val uiRecipe: StateFlow<RecipeDetailUiState> = _uiRecipe
 
     fun fetchRecipeDetail(
         id: String
     ) {
+        _uiRecipe.value =
+            RecipeDetailUiState(isLoading = true)
         viewModelScope.launch {
-            val response = detailService.getRecipeInformation(id)
-            if (response.isSuccessful) {
-                _uiRecipe.value = response.body()
-            } else {
-                Log.d("DetailScreen", "Request Error:: ${response.errorBody()}")
+            try {
+                val response = detailService.getRecipeInformation(id)
+                if (response.isSuccessful) {
+                    val recipe = response.body()
+                    if (recipe != null) {
+                        val recipeUiData = converterRecipeDto(recipe)
+                        _uiRecipe.value = RecipeDetailUiState(data = recipeUiData)
+                    }
+                } else {
+                    _uiRecipe.value = RecipeDetailUiState(isError = true)
+                }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                if (ex is UnknownHostException) {
+                    _uiRecipe.value = RecipeDetailUiState(
+                        isError = true,
+                        errorMessage = "Not internet connection"
+                    )
+                } else {
+                    _uiRecipe.value = RecipeDetailUiState(isError = true)
+                }
             }
         }
     }
 
-
     fun cleanRecipeId() {
         viewModelScope.launch {
-            delay(1000)
-            _uiRecipe.value = null
+            _uiRecipe.value = RecipeDetailUiState()
         }
+    }
+
+    private fun converterRecipeDto(recipeDto: RecipeDto): RecipeDetailUiData {
+        val recipeUiData =
+            RecipeDetailUiData(
+                id = recipeDto.id,
+                title = recipeDto.title,
+                image = recipeDto.image,
+                summary = recipeDto.summary
+            )
+        return recipeUiData
     }
 
     companion object {
