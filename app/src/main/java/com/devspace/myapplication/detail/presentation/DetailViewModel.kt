@@ -9,13 +9,16 @@ import com.devspace.myapplication.common.data.remote.RecipeDto
 import com.devspace.myapplication.detail.presentation.ui.RecipeDetailUiData
 import com.devspace.myapplication.detail.presentation.ui.RecipeDetailUiState
 import com.devspace.myapplication.detail.data.DetailService
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 class DetailViewModel(
-    private val detailService: DetailService
+    private val detailService: DetailService,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
     private val _uiRecipe = MutableStateFlow(RecipeDetailUiState())
@@ -26,7 +29,7 @@ class DetailViewModel(
     ) {
         _uiRecipe.value =
             RecipeDetailUiState(isLoading = true)
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             try {
                 val response = detailService.getRecipeInformation(id)
                 if (response.isSuccessful) {

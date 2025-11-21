@@ -8,6 +8,7 @@ import com.devspace.myapplication.common.data.remote.RetrofitClient
 import com.devspace.myapplication.common.model.RecipeListUiData
 import com.devspace.myapplication.common.model.RecipeListUiState
 import com.devspace.myapplication.search.data.SearchService
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 class SearchViewModel(
-    private val searchService: SearchService
+    private val searchService: SearchService,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel(){
 
     private val _uiRecipesFound = MutableStateFlow(RecipeListUiState())
@@ -24,7 +26,7 @@ class SearchViewModel(
     fun fetchRecipesFound(querySearch: String){
 
         _uiRecipesFound.value = RecipeListUiState(isLoading = true)
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             try {
                 val response = searchService.searchRecipes(querySearch)
                 if (response.isSuccessful) {
@@ -43,7 +45,6 @@ class SearchViewModel(
                     _uiRecipesFound.value = RecipeListUiState(isError = true)
                 }
             } catch (ex: Exception){
-                ex.printStackTrace()
                 if (ex is UnknownHostException){
                     _uiRecipesFound.value = RecipeListUiState(isError = true,
                         errorMessage = "Not internet connection")
