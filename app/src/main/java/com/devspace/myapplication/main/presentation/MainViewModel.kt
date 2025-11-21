@@ -9,6 +9,7 @@ import com.devspace.myapplication.EasyRecipesApplication
 import com.devspace.myapplication.main.data.RecipeMainRepository
 import com.devspace.myapplication.common.model.RecipeListUiState
 import com.devspace.myapplication.common.model.RecipeListUiData
+import com.devspace.myapplication.main.data.MainRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 class MainViewModel(
-    private val repository: RecipeMainRepository
+    private val repository: MainRepository
 ) : ViewModel() {
 
     private val _uiRecipes = MutableStateFlow(RecipeListUiState())
@@ -42,7 +43,6 @@ class MainViewModel(
                             image = it.image,
                             summary = it.summary
                         )
-
                     }
                     _uiRecipes.value = RecipeListUiState(list = recipeUiDataList)
                 }

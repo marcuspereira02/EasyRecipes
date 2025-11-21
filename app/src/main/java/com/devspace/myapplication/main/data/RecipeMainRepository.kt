@@ -1,15 +1,15 @@
 package com.devspace.myapplication.main.data
 
 import com.devspace.myapplication.common.model.Recipe
-import com.devspace.myapplication.main.data.local.RecipeMainLocalDataSource
-import com.devspace.myapplication.main.data.remote.RecipeMainRemoteDataSource
+import com.devspace.myapplication.main.data.local.LocalDataSource
+import com.devspace.myapplication.main.data.remote.RemoteDataSource
 
 class RecipeMainRepository(
-    private val local: RecipeMainLocalDataSource,
-    private val remote: RecipeMainRemoteDataSource
-) {
+    private val local: LocalDataSource,
+    private val remote: RemoteDataSource
+) : MainRepository {
 
-    suspend fun getAllRecipes(): Result<List<Recipe>?> {
+    override suspend fun getAllRecipes(): Result<List<Recipe>?> {
         return try {
             val result = remote.getRandomRecipes()
             if (result.isSuccess) {
@@ -27,7 +27,6 @@ class RecipeMainRepository(
                 }
             }
         } catch (ex: Exception) {
-            ex.printStackTrace()
             Result.failure(ex)
         }
     }

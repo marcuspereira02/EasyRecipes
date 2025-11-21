@@ -3,12 +3,12 @@ package com.devspace.myapplication.main.data.remote
 import android.accounts.NetworkErrorException
 import com.devspace.myapplication.common.model.Recipe
 
-class RecipeMainRemoteDataSource(private val mainService: MainService) {
+class RecipeMainRemoteDataSource(private val mainService: MainService) : RemoteDataSource {
 
-    suspend fun getRandomRecipes(): Result<List<Recipe>?>{
+    override suspend fun getRandomRecipes(): Result<List<Recipe>?> {
         return try {
             val response = mainService.getRecipesRandom()
-            if (response.isSuccessful){
+            if (response.isSuccessful) {
                 val recipes = response.body()?.recipes?.map {
                     Recipe(
                         id = it.id,
@@ -21,7 +21,7 @@ class RecipeMainRemoteDataSource(private val mainService: MainService) {
             } else {
                 Result.failure(NetworkErrorException(response.message()))
             }
-        }catch (ex: Exception){
+        } catch (ex: Exception) {
             ex.printStackTrace()
             Result.failure(ex)
         }
