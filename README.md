@@ -9,7 +9,15 @@ EasyRecipes é um aplicativo Android que permite aos usuários explorar receitas
 ## 🧩 Arquitetura
 O projeto segue o padrão **MVVM (Model-View-ViewModel)** junto com o **Repository Pattern**, garantindo uma melhor separação de responsabilidades e facilidade de manutenção.  
 Além disso, o app utiliza uma abordagem **Offline First**, permitindo que os dados sejam armazenados localmente para acesso mesmo sem conexão.
-  
+
+## 🧪 Testes
+O projeto inclui testes unitários utilizando coroutines test, Flow testing e Fake Services para simular comportamentos da API, garantindo previsibilidade e isolamento durante os testes.
+
+Exemplos de cenários testados:
+
+- Quando a resposta da API é um sucesso, o ViewModel retorna o estado da UI corretamente
+
+- Quando ocorre erro no serviço, o estado de erro é emitido
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
